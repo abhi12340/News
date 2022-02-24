@@ -1,0 +1,83 @@
+//
+//  TopHeadlineCell.swift
+//  News
+//
+//  Created by Abhishek Kumar on 24/02/22.
+//
+
+import UIKit
+import SDWebImage
+
+class NewsFeatureCell: UITableViewCell {
+    
+    private lazy var title: UILabel = {
+        $0.font = UIFont.boldSystemFont(ofSize: 14)
+        $0.lineBreakMode = .byWordWrapping
+        $0.numberOfLines = 0
+        $0.textColor = .black
+        $0.setContentHuggingPriority(.defaultLow, for: .vertical)
+        return $0
+    }(UILabel())
+    
+    private lazy var author: UILabel = {
+        $0.font = UIFont.systemFont(ofSize: 12)
+        $0.textColor = .gray
+        $0.numberOfLines = 1
+        return $0
+    }(UILabel())
+    
+    private lazy var stackView: UIStackView = {
+        $0.distribution = .fill
+        $0.alignment = .leading
+        $0.axis = .vertical
+        $0.spacing = 5
+        return $0
+    }(UIStackView(arrangedSubviews: [title, author]))
+    
+    private lazy var leftImageView: UIImageView = {
+        $0.clipsToBounds = true
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        return $0
+    }(UIImageView())
+    
+    private lazy var parentStackView: UIStackView = {
+        $0.axis = .horizontal
+        $0.alignment = .center
+        $0.distribution = .fill
+        $0.spacing = 8
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UIStackView(arrangedSubviews: [leftImageView, stackView]))
+    
+    static var reuseIdentifier: String = "NewsFeatureCell"
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupParentStackView()
+    }
+    
+    private func setupParentStackView() {
+        contentView.addSubview(parentStackView)
+        NSLayoutConstraint.activate([parentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+                                     parentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+                                     parentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+                                     parentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("failed to initlize the cell")
+    }
+    
+    func configure(with article: Article) {
+        let attributedString = NSMutableAttributedString(string: "Author:- ", attributes: [.font: UIFont.boldSystemFont(ofSize: 13), .foregroundColor: UIColor.black])
+        let secondString = NSAttributedString(string: article.author ?? "", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.gray])
+        attributedString.append(secondString)
+        author.attributedText = attributedString
+        title.text = article.title
+        if let imageUrl = article.urlToImage {
+            leftImageView.sd_setImage(with: URL(string: imageUrl), completed: nil)
+        }
+    }
+}
