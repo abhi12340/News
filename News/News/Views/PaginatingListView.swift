@@ -9,12 +9,12 @@ import UIKit
 
 protocol PaginatingDelegate: AnyObject {
     func fetchMore()
-    func dataAtSelectedRow(data: Any)
+    func dataAtSelectedRow(data: GenericProtocol)
 }
 
 class PaginatingListView: UIView {
     
-    private var dataList: [Any] = []
+    private var dataList: [GenericProtocol] = []
     
     weak var delegate: PaginatingDelegate?
     
@@ -73,7 +73,7 @@ extension PaginatingListView: UITableViewDataSource, UITableViewDelegate {
         delegate?.dataAtSelectedRow(data: dataList[indexPath.row])
     }
     
-    func update(list: [Any]) {
+    func update(list: [GenericProtocol]) {
         self.dataList = list
         if tableView.tableFooterView != nil {
             tableView.tableFooterView = nil

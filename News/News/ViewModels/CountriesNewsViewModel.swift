@@ -13,7 +13,7 @@ class CountriesNewsViewModel {
     private let paginationOffset = 20
     
     var isPaginating = false
-    var dataSource = Variable<[Any]>([])
+    var dataSource = Variable<[GenericProtocol]>([])
     var error = Variable<String>("error while fetching")
     
     init(networkService: NetworkProtocol) {

@@ -1,18 +1,18 @@
 //
-//  SearchController.swift
+//  ArticleFromSourceVC.swift
 //  News
 //
-//  Created by Abhishek Kumar on 24/02/22.
+//  Created by Abhishek Kumar on 25/02/22.
 //
 
 import UIKit
-import SafariServices
 
-class SearchController: UIViewController {
+class ArticleFromSourceVC: UIViewController {
     
-    private let viewmodel = SearchViewModel(networkService: NetworkClient.shared)
-    private let searchBarVc = UISearchController(searchResultsController: nil)
-    private var searchKey = ""
+    private let sourecCode: String
+    private var sourceName: String?
+    private let viewmodel: ArticleFromSouceViewModel
+    private let disposeBag = DisposeBag()
     
     private lazy var paginatingView: PaginatingListView = {
         $0.frame = view.frame
@@ -20,13 +20,20 @@ class SearchController: UIViewController {
         return $0
     }(PaginatingListView())
     
-    private let disposeBag = DisposeBag()
+    init(sourceCode: String, sourceName: String?) {
+        self.sourecCode = sourceCode
+        self.sourceName = sourceName
+        self.viewmodel = ArticleFromSouceViewModel(networkService: NetworkClient.shared)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
-        navigationItem.title = "Search"
         super.viewDidLoad()
-        viewmodel.getTopHeadLines(for: "")
-        setupSearchBar()
+        self.navigationItem.title = sourceName
         setupBinding()
     }
     
@@ -34,25 +41,24 @@ class SearchController: UIViewController {
         view.addSubview(paginatingView)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        viewmodel.getTopHeadLines(with: sourecCode)
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         viewmodel.resetPaginationFlagAndDatasource()
         super.viewDidDisappear(animated)
     }
-    
-    private func setupSearchBar() {
-        navigationItem.searchController = searchBarVc
-        searchBarVc.searchBar.delegate = self
-    }
+
 }
 
-extension SearchController {
+extension ArticleFromSourceVC {
     
     func setupBinding() {
         
         viewmodel.datasource.subscribe { [weak self] articles in
             DispatchQueue.main.async {
                 self?.paginatingView.update(list: articles)
-                self?.searchBarVc.dismiss(animated: false, completion: nil)
             }
         }.disposed(by: disposeBag)
         
@@ -65,33 +71,17 @@ extension SearchController {
     }
 }
 
-extension SearchController: UISearchBarDelegate {
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if let text = searchBar.text, !text.isEmpty {
-            searchKey = text
-            viewmodel.resetPaginationFlagAndDatasource()
-            viewmodel.getTopHeadLines(for: text)
-        }
-    }
-}
-
-extension SearchController: PaginatingDelegate {
-    
+extension ArticleFromSourceVC: PaginatingDelegate {
     func fetchMore() {
-        
-        if searchKey.isEmpty {
-            return
-        }
-        
         if viewmodel.isPaginating {
             return
         }
-        
-        viewmodel.getTopHeadLines(for: searchKey, pagination: true)
+        viewmodel.getTopHeadLines(with: sourecCode, pagination: true)
     }
     
     func dataAtSelectedRow(data: GenericProtocol) {
-        
+        if let article = data as? Article {
+            print(article)
+        }
     }
 }

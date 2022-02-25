@@ -1,13 +1,11 @@
 //
-//  HeadLineViewModel.swift
+//  SearchViewModel.swift
 //  News
 //
-//  Created by Abhishek Kumar on 24/02/22.
+//  Created by Abhishek Kumar on 25/02/22.
 //
 
-import Foundation
-
-class HeadLineViewModel {
+class SearchViewModel {
     
     private let networkService: NetworkProtocol
     private let paginationOffset = 20
@@ -21,16 +19,16 @@ class HeadLineViewModel {
     }
 }
 
-extension HeadLineViewModel {
+extension SearchViewModel {
     
-    func getTopHeadLines(with pagination: Bool = false) {
+    func getTopHeadLines(for query: String, pagination: Bool = false) {
         if pagination {
             isPaginating = true
         }
         let currentPageOffset = (datasource.value.count / paginationOffset) + 1
-        networkService.request(routerRequest: HeadlineRequest.getHeadline(code: "en",
+        networkService.request(routerRequest: HeadlineRequest.getHeadline(code: query,
                                                                           pageNo: currentPageOffset,
-                                                                          key: NetworkConstants.language),
+                                                                          key: NetworkConstants.searchKey),
                                type: NewsResponse.self) { [weak self] result in
             switch result {
             case .success(let response):

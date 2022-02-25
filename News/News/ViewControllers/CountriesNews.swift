@@ -39,8 +39,16 @@ class CountriesNews: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Countries News"
-        viewmodel.getTopHeadLines(for: country[selectedCountryIndex])
         setupbinding()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        viewmodel.getTopHeadLines(for: country[selectedCountryIndex])
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        viewmodel.resetPaginationFlagAndDatasource()
+        super.viewDidDisappear(animated)
     }
     
     override func viewDidLayoutSubviews() {
@@ -54,7 +62,7 @@ extension CountriesNews: UIPickerViewDelegate, UIPickerViewDataSource {
         view.addSubview(pickerView)
         view.addSubview(segment)
         view.addSubview(paginatingView)
-        NSLayoutConstraint.activate([pickerView.heightAnchor.constraint(equalToConstant: 180),
+        NSLayoutConstraint.activate([pickerView.heightAnchor.constraint(equalToConstant: 160),
                                      pickerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                      pickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      pickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
@@ -77,6 +85,14 @@ extension CountriesNews: UIPickerViewDelegate, UIPickerViewDataSource {
         viewmodel.dataSource.subscribe { [weak self] result in
             DispatchQueue.main.async {
                 self?.paginatingView.update(list: result)
+            }
+        }.disposed(by: disposeBag)
+        
+        viewmodel.error.subscribe { [weak self] errorMessage in
+            DispatchQueue.main.async {
+                self?.view.showToast(message: errorMessage,
+                                     yPosition: self?.view.center.y ?? CGFloat(100),
+                                     duration: 3)
             }
         }.disposed(by: disposeBag)
     }
@@ -123,7 +139,15 @@ extension CountriesNews: PaginatingDelegate {
         }
     }
     
-    func dataAtSelectedRow(data: Any) {
+    func dataAtSelectedRow(data: GenericProtocol) {
         
+        if let articles = data as? Article {
+            
+        }
+        
+        if let source = data as? Source, let id = source.id {
+            let vc = ArticleFromSourceVC(sourceCode: id, sourceName: source.name)
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

@@ -21,7 +21,7 @@ class LazyImageView: UIImageView {
             return
         }
 
-        DispatchQueue.global().async { [weak self] in
+        DispatchQueue.global(qos: .background).async { [weak self] in
 
             if let imageData = try? Data(contentsOf: imageURL) {
                 print("image downloaded from server...")

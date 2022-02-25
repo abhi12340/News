@@ -9,6 +9,8 @@ import UIKit
 
 class NewsFeatureCell: UITableViewCell {
     
+    static var reuseIdentifier: String = "NewsFeatureCell"
+    
     private lazy var title: UILabel = {
         $0.font = UIFont.boldSystemFont(ofSize: 14)
         $0.lineBreakMode = .byWordWrapping
@@ -39,6 +41,7 @@ class NewsFeatureCell: UITableViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.widthAnchor.constraint(equalToConstant: 100).isActive = true
         $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        $0.layer.cornerRadius = 2
         return $0
     }(LazyImageView())
     
@@ -50,8 +53,6 @@ class NewsFeatureCell: UITableViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIStackView(arrangedSubviews: [leftImageView, stackView]))
-    
-    static var reuseIdentifier: String = "NewsFeatureCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -79,5 +80,12 @@ class NewsFeatureCell: UITableViewCell {
         if let imageUrl = article.urlToImage, let url = URL(string: imageUrl) {
             leftImageView.loadImage(fromURL: url, placeHolderImage: "")
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        title.text = nil
+        author.text = nil
+        leftImageView.image = nil
     }
 }

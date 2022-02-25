@@ -7,20 +7,17 @@
 
 import Foundation
 
+protocol GenericProtocol { }
+
 struct NewsResponse: Codable {
     let status: String
     let totalResults: Int?
     let articles: [Article]?
     let sources: [Source]?
-    
-//    enum CodingKeys: String, CodingKey {
-//        case source = "sources"
-//        case articles, totalResults, status
-//    }
 }
 
 // MARK: - Article
-struct Article: Codable {
+struct Article: Codable, GenericProtocol {
     let source: Source?
     let author: String?
     let title, articleDescription: String?
@@ -37,35 +34,13 @@ struct Article: Codable {
 }
 
 // MARK: - Source
-struct Source: Codable {
+struct Source: Codable, GenericProtocol {
     let id, name, sourceDescription: String?
     let url: String?
-    let category: Category?
-    let language: Language?
-    let country: Country?
 
     enum CodingKeys: String, CodingKey {
         case id, name
         case sourceDescription = "description"
-        case url, category, language, country
+        case url
     }
-}
-
-enum Category: String, Codable {
-    case business = "business"
-    case entertainment = "entertainment"
-    case general = "general"
-    case health = "health"
-    case science = "science"
-    case sports = "sports"
-    case technology = "technology"
-}
-
-enum Country: String, Codable {
-    case us = "us"
-}
-
-enum Language: String, Codable {
-    case en = "en"
-    case es = "es"
 }

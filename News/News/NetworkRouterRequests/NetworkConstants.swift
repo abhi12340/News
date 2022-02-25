@@ -10,7 +10,7 @@ import Foundation
 struct NetworkConstants {
     
     static let baseurl = "https://newsapi.org/v2/"
-    static let apiKey = "af267181e3da412ea61b240954c8067e"
+    static let apiKey = "d5432e25155c4ccab77387b247a0adf1"
     static let countryKey = "country"
     static let auth = "Authorization"
     static let topHeadLinePath = "top-headlines"
@@ -19,8 +19,10 @@ struct NetworkConstants {
     static let requestHeaderContentTypeKey = "Content-Type"
     static let page = "page"
     static let sourcePath = "top-headlines/sources"
+    static let sourceKey = "sources"
+    static let searchKey = "q"
     
     // MARK: - Request Timeout
-    static let requestTimeout = 60.0
-    static let responseTimeOut = 40.0
+    static let requestTimeout = 30.0
+    static let responseTimeOut = 30.0
 }

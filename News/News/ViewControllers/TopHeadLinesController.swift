@@ -18,26 +18,42 @@ class TopHeadLinesController: UIViewController {
         return $0
     }(PaginatingListView())
     
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         navigationItem.title = "Headlines"
-        setupBinding()
         super.viewDidLoad()
+        setupBinding()
     }
     
     override func viewDidLayoutSubviews() {
         view.addSubview(paginatingView)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        viewmodel.getTopHeadLines()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        viewmodel.resetPaginationFlagAndDatasource()
+        super.viewDidDisappear(animated)
     }
 }
 
 extension TopHeadLinesController {
     
     func setupBinding() {
-        viewmodel.getTopHeadLines()
+        
         viewmodel.datasource.subscribe { [weak self] articles in
             DispatchQueue.main.async {
                 self?.paginatingView.update(list: articles)
+            }
+        }.disposed(by: disposeBag)
+        
+        viewmodel.error.subscribe { [weak self] errorMessage in
+            DispatchQueue.main.async {
+                self?.view.showToast(message: errorMessage,
+                                     yPosition: self?.view.center.y ?? CGFloat(100), duration: 3)
             }
         }.disposed(by: disposeBag)
     }
@@ -51,9 +67,9 @@ extension TopHeadLinesController: PaginatingDelegate {
         viewmodel.getTopHeadLines(with: true)
     }
     
-    func dataAtSelectedRow(data: Any) {
+    func dataAtSelectedRow(data: GenericProtocol) {
         if let article = data as? Article {
-            print(article)
+            
         }
     }
 }
