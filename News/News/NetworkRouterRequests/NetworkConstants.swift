@@ -10,7 +10,7 @@ import Foundation
 struct NetworkConstants {
     
     static let baseurl = "https://newsapi.org/v2/"
-    static let apiKey = "d5432e25155c4ccab77387b247a0adf1"
+    static let apiKey = "003f1c335263477db2205467b22ec644"
     static let countryKey = "country"
     static let auth = "Authorization"
     static let topHeadLinePath = "top-headlines"
