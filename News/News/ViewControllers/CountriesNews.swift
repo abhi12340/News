@@ -62,7 +62,7 @@ extension CountriesNews: UIPickerViewDelegate, UIPickerViewDataSource {
         view.addSubview(pickerView)
         view.addSubview(segment)
         view.addSubview(paginatingView)
-        NSLayoutConstraint.activate([pickerView.heightAnchor.constraint(equalToConstant: 160),
+        NSLayoutConstraint.activate([pickerView.heightAnchor.constraint(equalToConstant: 200),
                                      pickerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                      pickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      pickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
@@ -142,7 +142,8 @@ extension CountriesNews: PaginatingDelegate {
     func dataAtSelectedRow(data: GenericProtocol) {
         
         if let articles = data as? Article {
-            
+            let vc = NewsDetailsVC(article: articles)
+            present(vc, animated: true, completion: nil)
         }
         
         if let source = data as? Source, let id = source.id {

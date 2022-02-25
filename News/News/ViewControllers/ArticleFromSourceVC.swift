@@ -81,7 +81,8 @@ extension ArticleFromSourceVC: PaginatingDelegate {
     
     func dataAtSelectedRow(data: GenericProtocol) {
         if let article = data as? Article {
-            print(article)
+            let vc = NewsDetailsVC(article: article)
+            present(vc, animated: true, completion: nil)
         }
     }
 }

@@ -92,6 +92,9 @@ extension SearchController: PaginatingDelegate {
     }
     
     func dataAtSelectedRow(data: GenericProtocol) {
-        
+        if let article = data as? Article {
+            let vc = NewsDetailsVC(article: article)
+            present(vc, animated: true, completion: nil)
+        }
     }
 }

@@ -42,6 +42,7 @@ class NewsFeatureCell: UITableViewCell {
         $0.widthAnchor.constraint(equalToConstant: 100).isActive = true
         $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
         $0.layer.cornerRadius = 2
+        $0.contentMode = .scaleAspectFill
         return $0
     }(LazyImageView())
     

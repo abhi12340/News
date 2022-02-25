@@ -21,7 +21,7 @@ class TopHeadLinesController: UIViewController {
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
-        navigationItem.title = "Headlines"
+        navigationItem.title = "Top Stories"
         super.viewDidLoad()
         setupBinding()
     }
@@ -69,7 +69,8 @@ extension TopHeadLinesController: PaginatingDelegate {
     
     func dataAtSelectedRow(data: GenericProtocol) {
         if let article = data as? Article {
-            
+            let vc = NewsDetailsVC(article: article)
+            present(vc, animated: true, completion: nil)
         }
     }
 }
