@@ -9,11 +9,10 @@ News App
     5. Used URLSession for Api integration.
     6. Created UI programatically using NSLayoutconstaints and UIStackview.
 
-## Screen Sort
+## Screen Sorts
+<img width="376" alt="ss" src="https://user-images.githubusercontent.com/29311597/155766475-0e5fc953-8138-4d6d-a3cb-1926d85d78da.png">
+<img width="370" alt="ss2" src="https://user-images.githubusercontent.com/29311597/155766603-67bea16a-52f1-42d4-a8dc-5f3a7fe1cb38.png">
+<img width="374" alt="ss3" src="https://user-images.githubusercontent.com/29311597/155766804-8ebce7ff-30e8-4c88-adea-b2d7afd60005.png">
 
-![Simulator Screen Shot - iPhone 11 - 2022-02-25 at 23 32 00](https://user-images.githubusercontent.com/29311597/155765112-0c70afeb-dde6-4e70-af11-dae00c002785.png)
-
-![Simulator Screen Shot - iPhone 11 - 2022-02-25 at 23 32 00](https://user-images.githubusercontent.com/29311597/155765988-ce90c14d-cbec-4d28-b671-805fbaebb451.png)
-
-### Note :- If api is failing Api key might expire
+#### Note :- If API is failing API key might got expired.
 
