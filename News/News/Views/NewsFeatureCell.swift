@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SDWebImage
 
 class NewsFeatureCell: UITableViewCell {
     
@@ -22,7 +21,8 @@ class NewsFeatureCell: UITableViewCell {
     private lazy var author: UILabel = {
         $0.font = UIFont.systemFont(ofSize: 12)
         $0.textColor = .gray
-        $0.numberOfLines = 1
+        $0.numberOfLines = 2
+        $0.lineBreakMode = .byWordWrapping
         return $0
     }(UILabel())
     
@@ -34,13 +34,13 @@ class NewsFeatureCell: UITableViewCell {
         return $0
     }(UIStackView(arrangedSubviews: [title, author]))
     
-    private lazy var leftImageView: UIImageView = {
+    private lazy var leftImageView: LazyImageView = {
         $0.clipsToBounds = true
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.widthAnchor.constraint(equalToConstant: 100).isActive = true
         $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
         return $0
-    }(UIImageView())
+    }(LazyImageView())
     
     private lazy var parentStackView: UIStackView = {
         $0.axis = .horizontal
@@ -76,8 +76,8 @@ class NewsFeatureCell: UITableViewCell {
         attributedString.append(secondString)
         author.attributedText = attributedString
         title.text = article.title
-        if let imageUrl = article.urlToImage {
-            leftImageView.sd_setImage(with: URL(string: imageUrl), completed: nil)
+        if let imageUrl = article.urlToImage, let url = URL(string: imageUrl) {
+            leftImageView.loadImage(fromURL: url, placeHolderImage: "")
         }
     }
 }

@@ -13,8 +13,7 @@ class HeadLineViewModel {
     private let paginationOffset = 20
     
     var isPaginating = false
-    var datasource = Variable<[Article]>([Article(source: nil, author: "Abhishek", title: "Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com", articleDescription: nil, url: nil, urlToImage: nil, publishedAt: nil, content: nil),
-                                          Article(source: nil, author: "Abhishek", title: "Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com", articleDescription: nil, url: nil, urlToImage: nil, publishedAt: nil, content: nil),Article(source: nil, author: "Abhishek", title: "Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com", articleDescription: nil, url: nil, urlToImage: nil, publishedAt: nil, content: nil),Article(source: nil, author: "Abhishek", title: "Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com", articleDescription: nil, url: nil, urlToImage: nil, publishedAt: nil, content: nil)])
+    var datasource = Variable<[Article]>([])
     var error = Variable<String>("error while fetching")
     
     init(networkService: NetworkProtocol) {

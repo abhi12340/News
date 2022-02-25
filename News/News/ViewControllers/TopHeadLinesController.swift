@@ -51,7 +51,7 @@ extension TopHeadLinesController: PaginatingDelegate {
         viewmodel.getTopHeadLines(with: true)
     }
     
-    func dataAtSelectedRow(data: Codable) {
+    func dataAtSelectedRow(data: Any) {
         if let article = data as? Article {
             print(article)
         }
