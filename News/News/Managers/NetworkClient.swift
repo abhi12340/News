@@ -44,4 +44,8 @@ final class NetworkClient: NetworkProtocol {
         }
         task?.resume()
     }
+    
+    func cancel() {
+        self.task?.cancel()
+    }
 }

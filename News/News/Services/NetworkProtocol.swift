@@ -11,4 +11,5 @@ protocol NetworkProtocol {
     func request<T: Codable>(routerRequest: URLRequestConvertible,
                              type: T.Type,
                              completionHandler: @escaping(Result<T, NewsError>) -> ())
+    func cancel()
 }

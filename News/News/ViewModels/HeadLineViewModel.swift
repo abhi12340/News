@@ -29,7 +29,8 @@ extension HeadLineViewModel {
         }
         let currentPageOffset = (datasource.value.count / paginationOffset) + 1
         networkService.request(routerRequest: HeadlineRequest.getHeadline(code: "en",
-                                                                          pageNo: currentPageOffset),
+                                                                          pageNo: currentPageOffset,
+                                                                          key: NetworkConstants.language),
                                type: NewsResponse.self) { [weak self] result in
             switch result {
             case .success(let response):

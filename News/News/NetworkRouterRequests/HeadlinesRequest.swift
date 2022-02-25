@@ -10,7 +10,7 @@ import Foundation
 
 enum HeadlineRequest: URLRequestConvertible {
     
-    case getHeadline(code: String, pageNo: Int)
+    case getHeadline(code: String, pageNo: Int, key: String)
     
     func asURLRequest() throws -> URLRequest {
         var method: HTTPMethod {
@@ -22,8 +22,8 @@ enum HeadlineRequest: URLRequestConvertible {
         
         var params: Parameters {
             switch self {
-            case .getHeadline(let code, let page):
-                return [NetworkConstants.language: code,
+            case .getHeadline(let code, let page, let key):
+                return [key: code,
                         NetworkConstants.page: page]
             }
         }

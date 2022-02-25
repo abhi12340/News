@@ -11,7 +11,12 @@ struct NewsResponse: Codable {
     let status: String
     let totalResults: Int?
     let articles: [Article]?
-    let source: [Source]?
+    let sources: [Source]?
+    
+//    enum CodingKeys: String, CodingKey {
+//        case source = "sources"
+//        case articles, totalResults, status
+//    }
 }
 
 // MARK: - Article

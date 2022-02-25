@@ -13,11 +13,8 @@ class CountriesNewsViewModel {
     private let paginationOffset = 20
     
     var isPaginating = false
-    var articleDataSource = Variable<[Article]>([Article(source: nil, author: "Abhishek", title: "Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com", articleDescription: nil, url: nil, urlToImage: nil, publishedAt: nil, content: nil),
-                                          Article(source: nil, author: "Abhishek", title: "Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com", articleDescription: nil, url: nil, urlToImage: nil, publishedAt: nil, content: nil),Article(source: nil, author: "Abhishek", title: "Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com", articleDescription: nil, url: nil, urlToImage: nil, publishedAt: nil, content: nil),Article(source: nil, author: "Abhishek", title: "Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com", articleDescription: nil, url: nil, urlToImage: nil, publishedAt: nil, content: nil)])
+    var dataSource = Variable<[Any]>([])
     var error = Variable<String>("error while fetching")
-    
-    var sourceDataSource = Variable<[Source]>([])
     
     init(networkService: NetworkProtocol) {
         self.networkService = networkService
@@ -27,23 +24,26 @@ class CountriesNewsViewModel {
 extension CountriesNewsViewModel {
     
     
-    func resetPaginationFlag() {
+    func resetPaginationFlagAndDatasource() {
         isPaginating = false
+        dataSource.value = []
+        networkService.cancel()
     }
     
     func getTopHeadLines(for countryCode: String, with pagination: Bool = false) {
         if pagination {
             isPaginating = true
         }
-        let currentPageOffset = (articleDataSource.value.count / paginationOffset) + 1
+        let currentPageOffset = (dataSource.value.count / paginationOffset) + 1
         networkService.request(routerRequest: HeadlineRequest.getHeadline(code: countryCode,
-                                                                          pageNo: currentPageOffset),
+                                                                          pageNo: currentPageOffset,
+                                                                          key: NetworkConstants.countryKey),
                                type: NewsResponse.self) { [weak self] result in
             switch result {
             case .success(let response):
-                self?.articleDataSource.value.append(contentsOf: response.articles ?? [])
+                self?.dataSource.value.append(contentsOf: response.articles ?? [])
             case .failure(let error):
-                self?.articleDataSource.value.append(contentsOf: [])
+                self?.dataSource.value.append(contentsOf: [])
                 self?.error.value = error.localizedDescription
             }
             if pagination {
@@ -56,15 +56,15 @@ extension CountriesNewsViewModel {
         if pagination {
             isPaginating = true
         }
-        let currentPageOffset = (sourceDataSource.value.count / paginationOffset) + 1
+        let currentPageOffset = (dataSource.value.count / paginationOffset) + 1
         networkService.request(routerRequest: SourceRequest.getNewsSource(code: countryCode,
                                                                           pageNo: currentPageOffset),
                                type: NewsResponse.self) { [weak self] result in
             switch result {
             case .success(let response):
-                self?.sourceDataSource.value.append(contentsOf: response.source ?? [])
+                self?.dataSource.value.append(contentsOf: response.sources ?? [])
             case .failure(let error):
-                self?.sourceDataSource.value.append(contentsOf: [])
+                self?.dataSource.value.append(contentsOf: [])
                 self?.error.value = error.localizedDescription
             }
             if pagination {

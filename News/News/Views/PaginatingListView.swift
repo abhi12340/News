@@ -23,6 +23,7 @@ class PaginatingListView: UIView {
         $0.delegate = self
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.register(NewsFeatureCell.self, forCellReuseIdentifier: NewsFeatureCell.reuseIdentifier)
+        $0.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         return $0
     }(UITableView())
     
@@ -51,14 +52,21 @@ extension PaginatingListView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsFeatureCell.reuseIdentifier,
-                                                       for: indexPath) as? NewsFeatureCell  else {
-            fatalError("cell failed to deque the cell")
-        }
+        
         if let data = dataList as? [Article] {
+            
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsFeatureCell.reuseIdentifier,
+                                                           for: indexPath) as? NewsFeatureCell  else {
+                fatalError("cell failed to deque the cell")
+            }
             cell.configure(with: data[indexPath.row])
+            return cell
+        } else if let data = dataList as? [Source] {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+            cell.textLabel?.text = data[indexPath.row].name
+            return cell
         }
-        return cell
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
