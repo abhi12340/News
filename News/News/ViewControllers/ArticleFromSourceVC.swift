@@ -39,10 +39,12 @@ class ArticleFromSourceVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         view.addSubview(paginatingView)
+        super.viewDidLayoutSubviews()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         viewmodel.getTopHeadLines(with: sourecCode)
+        super.viewDidAppear(animated)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

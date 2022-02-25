@@ -32,6 +32,7 @@ class TopHeadLinesController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         viewmodel.getTopHeadLines()
+        super.viewDidAppear(animated)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

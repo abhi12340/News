@@ -79,8 +79,12 @@ class NewsDetailsVC: UIViewController {
         title = "NewsDetails"
         super.viewDidLoad()
         view.backgroundColor = .white
+    }
+    
+    override func viewDidLayoutSubviews() {
         setupView()
         configure()
+        super.viewDidLayoutSubviews()
     }
 }
 

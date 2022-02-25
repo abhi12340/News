@@ -43,7 +43,9 @@ class CountriesNews: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        segment.selectedSegmentIndex = selectedCountryIndex
         viewmodel.getTopHeadLines(for: country[selectedCountryIndex])
+        super.viewDidAppear(animated)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -53,6 +55,7 @@ class CountriesNews: UIViewController {
     
     override func viewDidLayoutSubviews() {
         setupView()
+        super.viewDidLayoutSubviews()
     }
 }
 

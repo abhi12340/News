@@ -32,6 +32,7 @@ class SearchController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         view.addSubview(paginatingView)
+        super.viewDidLayoutSubviews()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
