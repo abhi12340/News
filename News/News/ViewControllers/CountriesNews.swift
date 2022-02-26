@@ -121,6 +121,11 @@ extension CountriesNews: UIPickerViewDelegate, UIPickerViewDataSource {
 
 extension CountriesNews: PaginatingDelegate {
     
+    func setTabBarHidden(state: Bool) {
+        tabBarController?.tabBar.isHidden = state
+    }
+    
+    
     func fetchMore() {
         if viewmodel.isPaginating {
             return

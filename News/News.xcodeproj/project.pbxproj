@@ -91,13 +91,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D3164EA176EC9311D335B662 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		EF49B48627C7C7850058A12C /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,7 +106,6 @@
 			children = (
 				EF92BE7927C74730003374AB /* News */,
 				EF92BE7827C74730003374AB /* Products */,
-				D3164EA176EC9311D335B662 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};

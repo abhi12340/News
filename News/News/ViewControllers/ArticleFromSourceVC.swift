@@ -74,6 +74,11 @@ extension ArticleFromSourceVC {
 }
 
 extension ArticleFromSourceVC: PaginatingDelegate {
+    
+    func setTabBarHidden(state: Bool) {
+      tabBarController?.tabBar.isHidden = state
+    }
+    
     func fetchMore() {
         if viewmodel.isPaginating {
             return

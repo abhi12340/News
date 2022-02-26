@@ -10,6 +10,7 @@ import UIKit
 protocol PaginatingDelegate: AnyObject {
     func fetchMore()
     func dataAtSelectedRow(data: GenericProtocol)
+    func setTabBarHidden(state: Bool)
 }
 
 class PaginatingListView: UIView {
@@ -84,6 +85,10 @@ extension PaginatingListView: UITableViewDataSource, UITableViewDelegate {
 
 extension PaginatingListView: UIScrollViewDelegate {
     
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        delegate?.setTabBarHidden(state: true)
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let postion = scrollView.contentOffset.y
         if postion > (tableView.contentSize.height - 100 - scrollView.frame.size.height) {
@@ -92,6 +97,10 @@ extension PaginatingListView: UIScrollViewDelegate {
             }
             delegate?.fetchMore()
         }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        delegate?.setTabBarHidden(state: false)
     }
     
     private func createSpinnerFooter() -> UIView {

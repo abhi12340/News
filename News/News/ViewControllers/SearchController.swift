@@ -79,6 +79,11 @@ extension SearchController: UISearchBarDelegate {
 
 extension SearchController: PaginatingDelegate {
     
+    func setTabBarHidden(state: Bool) {
+        tabBarController?.tabBar.isHidden = state
+    }
+    
+    
     func fetchMore() {
         
         if searchKey.isEmpty {
